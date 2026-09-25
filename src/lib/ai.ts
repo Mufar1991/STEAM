@@ -83,7 +83,7 @@ function analyzeFailureRequest(ctx: AIContext): string {
   ].join('\n');
 }
 
-function analyzeRelationRequest(ctx: AIContext): string {
+function analyzeRelationRequest(): string {
   return [
     `Pertanyaan yang sangat penting! Sains dan Matematika saling terkait erat dalam proyek STEM:`,
     ``,
@@ -222,7 +222,7 @@ export async function getAIResponse(message: string, ctx: AIContext): Promise<st
   }
   if (lower.includes('hipotesis')) return analyzeHypothesisRequest(ctx);
   if (lower.includes('gagal') || lower.includes('hasil') || lower.includes('percobaan')) return analyzeFailureRequest(ctx);
-  if (lower.includes('hubungan') || lower.includes('sains') && lower.includes('matematika')) return analyzeRelationRequest(ctx);
+  if (lower.includes('hubungan') || lower.includes('sains') && lower.includes('matematika')) return analyzeRelationRequest();
   if (lower.includes('rekayasa') || lower.includes('desain') || lower.includes('engineering')) return analyzeEngineeringRequest(ctx);
   return defaultSocraticResponse(ctx);
 }

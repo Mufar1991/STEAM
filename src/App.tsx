@@ -9,6 +9,7 @@ import { Profil } from '@/components/Profil';
 import { AIWidget } from '@/components/AIWidget';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
+import { usePWAInstall } from '@/hooks/usePWAInstall';
 import type { AIContext } from '@/lib/ai';
 import type { Project, Role, TabKey } from '@/lib/types';
 
@@ -18,6 +19,7 @@ function App() {
   const [role, setRole] = useState<Role>('siswa');
   const [tab, setTab] = useState<TabKey>('beranda');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { supported: pwaSupported, prompt: pwaPrompt, dismissed: pwaDismissed, dismiss: dismissPWA } = usePWAInstall();
 
   useEffect(() => {
     document.body.setAttribute('data-role', role);
@@ -33,6 +35,13 @@ function App() {
     setTab('portofolio');
   };
 
+  const handleInstallPWA = async () => {
+    if (pwaPrompt) {
+      await pwaPrompt();
+      dismissPWA();
+    }
+  };
+
   const aiContext: AIContext = {
     role,
     projectTitle: selectedProject?.title,
@@ -42,8 +51,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <Header role={role} onRoleChange={setRole} theme={theme} onToggleTheme={toggleTheme} />
+    <div className="min-h-screen bg-slate-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] pb-28 text-slate-100">
+      <Header
+        role={role}
+        onRoleChange={setRole}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        onInstallPWA={handleInstallPWA}
+        showInstallPWA={pwaSupported && !pwaDismissed}
+      />
 
       <main className="mx-auto max-w-3xl px-4 py-5">
         {tab === 'beranda' && (
@@ -55,7 +71,7 @@ function App() {
           />
         )}
         {tab === 'katalog' && (
-          <Katalog role={role} onStart={handleStartProject} onGrade={handleGradeProject} />
+          <Katalog onStart={handleStartProject} onGrade={handleGradeProject} />
         )}
         {tab === 'lab' && (
           <Lab
@@ -64,7 +80,7 @@ function App() {
             onClearProject={() => setSelectedProject(null)}
           />
         )}
-        {tab === 'portofolio' && <Portofolio role={role} />}
+        {tab === 'portofolio' && <Portofolio />}
         {tab === 'profil' && <Profil />}
       </main>
 

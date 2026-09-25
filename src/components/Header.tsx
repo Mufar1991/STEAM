@@ -1,4 +1,4 @@
-import { GraduationCap, Moon, Sun, User2 } from 'lucide-react';
+import { Download, GraduationCap, Lightbulb, LightbulbOff, User2 } from 'lucide-react';
 import type { Role } from '@/lib/types';
 import type { Theme } from '@/hooks/useTheme';
 
@@ -7,17 +7,19 @@ interface HeaderProps {
   onRoleChange: (role: Role) => void;
   theme: Theme;
   onToggleTheme: () => void;
+  onInstallPWA?: () => void;
+  showInstallPWA?: boolean;
 }
 
-export function Header({ role, onRoleChange, theme, onToggleTheme }: HeaderProps) {
+export function Header({ role, onRoleChange, theme, onToggleTheme, onInstallPWA, showInstallPWA }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-30 bg-slate-800/90 backdrop-blur-md text-white dark:bg-slate-950/90">
+    <header className="sticky top-0 z-30 backdrop-blur-2xl bg-slate-900/60 border-b border-white/10 shadow-2xl shadow-indigo-500/10 text-white">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <img
             src="/logos_steam.png"
             alt="Logo STEM EduHub"
-            className="h-10 w-10 rounded-xl object-cover shadow-md"
+            className="h-10 w-10 rounded-xl object-cover shadow-md ring-2 ring-white/20"
           />
           <div className="leading-tight">
             <h1 className="text-sm font-bold tracking-tight sm:text-base">STEM EduHub GTK 2026</h1>
@@ -30,12 +32,24 @@ export function Header({ role, onRoleChange, theme, onToggleTheme }: HeaderProps
             type="button"
             onClick={onToggleTheme}
             aria-label="Ganti tema"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700/70 text-amber-300 transition hover:bg-slate-600"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-amber-300 backdrop-blur-md transition hover:bg-white/20"
           >
-            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === 'dark' ? <Lightbulb className="h-4 w-4" /> : <LightbulbOff className="h-4 w-4" />}
           </button>
 
-          <div className="flex items-center gap-2 rounded-full bg-slate-700/70 p-1">
+          {showInstallPWA && onInstallPWA && (
+            <button
+              type="button"
+              onClick={onInstallPWA}
+              aria-label="Install aplikasi"
+              className="no-print flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300 backdrop-blur-md border border-emerald-500/30 transition hover:bg-emerald-500/30"
+              title="Install Aplikasi STEM"
+            >
+              <Download className="h-4 w-4" />
+            </button>
+          )}
+
+          <div className="flex items-center gap-2 rounded-full bg-white/10 p-1 backdrop-blur-md border border-white/10">
             <button
               type="button"
               onClick={() => onRoleChange('siswa')}

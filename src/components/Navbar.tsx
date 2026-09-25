@@ -17,7 +17,7 @@ const TABS: { key: TabKey; label: string; icon: typeof Home }[] = [
 export function Navbar({ active, onChange }: NavbarProps) {
   return (
     <nav className="no-print fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-3">
-      <div className="flex w-full max-w-md items-center justify-between rounded-3xl border border-white/20 bg-slate-800/85 px-2 py-2 shadow-2xl backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80">
+      <div className="flex w-full max-w-md items-center justify-between rounded-3xl border border-white/15 bg-slate-900/60 px-2 py-2 shadow-2xl shadow-purple-500/10 backdrop-blur-2xl">
         {TABS.map(({ key, label, icon: Icon }) => {
           const isActive = active === key;
           return (
