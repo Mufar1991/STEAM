@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Role-based visibility: controlled by data-role on <body> */
+body[data-role='siswa'] .role-guru-only {
+  display: none !important;
+}
+
+body[data-role='guru'] .role-siswa-only {
+  display: none !important;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
